@@ -183,6 +183,7 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     MovieDetailsViewController *detailsController = [segue destinationViewController];
+    
     NSIndexPath *indexPath = [NSIndexPath new];
     if([sender isKindOfClass:[MovieTableViewCell class]]) {
         indexPath = [self.movieTableView indexPathForCell:sender];

@@ -16,7 +16,6 @@
 		0C10E0ED1E368CA20082C9DD /* MovieTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C10E0EC1E368CA20082C9DD /* MovieTableViewCell.m */; };
 		0C10E0F01E36AF230082C9DD /* MovieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C10E0EF1E36AF230082C9DD /* MovieModel.m */; };
 		0C68FBED1E3B953C0060B6AB /* ic_report_problem_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C68FBEC1E3B953C0060B6AB /* ic_report_problem_white.png */; };
-		0C68FBEF1E3BC8340060B6AB /* sample.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0C68FBEE1E3BC8340060B6AB /* sample.xib */; };
 		0CB901A71E3966BD00957A02 /* MovieDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB901A61E3966BD00957A02 /* MovieDetailsViewController.m */; };
 		0CB901AA1E3A889C00957A02 /* MoviePosterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB901A91E3A889C00957A02 /* MoviePosterCollectionViewCell.m */; };
 		0CB901B01E3AA13200957A02 /* ic_star.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB901AF1E3AA13200957A02 /* ic_star.png */; };
@@ -44,7 +43,6 @@
 		0C10E0EE1E36AF230082C9DD /* MovieModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieModel.h; sourceTree = "<group>"; };
 		0C10E0EF1E36AF230082C9DD /* MovieModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieModel.m; sourceTree = "<group>"; };
 		0C68FBEC1E3B953C0060B6AB /* ic_report_problem_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_report_problem_white.png; path = ../../../../Downloads/ic_report_problem_white_24dp/ios/ic_report_problem_white.imageset/ic_report_problem_white.png; sourceTree = "<group>"; };
-		0C68FBEE1E3BC8340060B6AB /* sample.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = sample.xib; sourceTree = "<group>"; };
 		0CB901A51E3966BD00957A02 /* MovieDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieDetailsViewController.h; sourceTree = "<group>"; };
 		0CB901A61E3966BD00957A02 /* MovieDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieDetailsViewController.m; sourceTree = "<group>"; };
 		0CB901A81E3A889C00957A02 /* MoviePosterCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviePosterCollectionViewCell.h; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 				0C10E0D81E3684580082C9DD /* AppDelegate.m */,
 				0C10E0DA1E3684580082C9DD /* MovieListViewController.h */,
 				0C10E0DB1E3684580082C9DD /* MovieListViewController.m */,
-				0C68FBEE1E3BC8340060B6AB /* sample.xib */,
 				0CB901A81E3A889C00957A02 /* MoviePosterCollectionViewCell.h */,
 				0CB901A91E3A889C00957A02 /* MoviePosterCollectionViewCell.m */,
 				0C10E0DD1E3684580082C9DD /* Main.storyboard */,
@@ -233,7 +230,6 @@
 				0CB901B81E3AA87300957A02 /* ic_view_list.png in Resources */,
 				0C10E0DF1E3684580082C9DD /* Main.storyboard in Resources */,
 				0CB901B01E3AA13200957A02 /* ic_star.png in Resources */,
-				0C68FBEF1E3BC8340060B6AB /* sample.xib in Resources */,
 				0CB901B41E3AA46D00957A02 /* ic_play_arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
