@@ -14,6 +14,6 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *movieDescription;
 @property (nonatomic, strong) NSURL *imageUrl;
-
+@property (nonatomic, strong) NSURL *lowResImageUrl;
 
 @end

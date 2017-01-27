@@ -24,7 +24,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.detailImage setImageWithURL:self.model.imageUrl];
+    __weak __typeof(self) weakSelf = self;
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:self.model.imageUrl];
+    NSURLRequest *lowResImageRequest = [NSURLRequest requestWithURL:self.model.lowResImageUrl];
+    [self.detailImage setImageWithURLRequest:lowResImageRequest
+                          placeholderImage:nil
+                                   success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+                                       NSLog(@"Image was NOT cached, fade in image");
+                                       weakSelf.detailImage.alpha = 0.0;
+                                       weakSelf.detailImage.image = image;
+                                       [UIView animateWithDuration:0.3 animations:^{ weakSelf.detailImage.alpha = 1.0; }
+                                                        completion:^(BOOL finished) {
+                                                            [self.detailImage setImageWithURLRequest:imageRequest
+                                                                       placeholderImage:image success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull hiResImage) {
+                                                                           weakSelf.detailImage.image = hiResImage;
+                                                                       } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+                                                                           nil;
+                                                                       }
+                                                             ];
+                                                        }
+                                        ];
+                                       
+                                   } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+                                       nil;
+                                   }];
     
     self.descriptionCardLabel.text = self.model.movieDescription;
     [self.descriptionCardLabel sizeToFit];

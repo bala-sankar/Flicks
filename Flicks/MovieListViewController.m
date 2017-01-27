@@ -177,7 +177,29 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     MovieModel *model = [self.movieModels objectAtIndex:indexPath.row];
     [cell.titleLabel setText:model.title];
     cell.descLabel.text = model.movieDescription;
-    [cell.posterImage setImageWithURL:model.imageUrl];
+    
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:model.imageUrl];
+    [cell.posterImage setImageWithURLRequest:imageRequest
+                            placeholderImage:nil
+                                     success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+                                         // imageResponse will be nil if the image is cached
+                                         if (response != nil) {
+                                             NSLog(@"Image was NOT cached, fade in image");
+                                             cell.posterImage.alpha = 0.0;
+                                             cell.posterImage.image = image;
+                                             [UIView animateWithDuration:0.3 animations:^{
+                                                 cell.posterImage.alpha = 1.0;
+                                             }];
+                                         }
+                                         else
+                                         {
+                                             NSLog(@"Image was cached so just update the image");
+                                             cell.posterImage.image = image;
+                                         }
+
+                                     } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+                                         nil;
+                                     }];
     return cell;
 }
 

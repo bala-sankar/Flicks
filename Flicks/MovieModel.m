@@ -17,6 +17,9 @@
         self.movieDescription = otherDictionary[@"overview"];
         NSString *url = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/original%@", otherDictionary[@"poster_path"]];
         self.imageUrl = [NSURL URLWithString:url];
+        
+        NSString *lrUrl = [NSString stringWithFormat:@"https://image.tmdb.org/t/p/w45%@", otherDictionary[@"poster_path"]];
+        self.lowResImageUrl = [NSURL URLWithString:lrUrl];
     }
     return self;
 }
