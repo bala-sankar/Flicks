@@ -12,7 +12,8 @@
 #import "MovieDetailsViewController.h"
 #import "MoviePosterCollectionViewCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <AFNetworking/AFNetworkReachabilityManager.h>
 
 typedef NS_ENUM(NSInteger, MovieListType) {
     MovieListTypeNowPlaying,
@@ -33,7 +34,9 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *layoutSegmentControl;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-
+@property (nonatomic, strong) UIRefreshControl *refreshControlForCollectionView;
+@property (weak, nonatomic) IBOutlet UIView *networkErrorDialog;
+@property (strong, nonatomic) AFNetworkReachabilityManager *networkingManager;
 
 @end
 
@@ -43,7 +46,10 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.refreshControl = [UIRefreshControl new];
+    self.refreshControlForCollectionView = [UIRefreshControl new];
+    self.networkingManager = [AFNetworkReachabilityManager sharedManager];
     [self.refreshControl addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControlForCollectionView addTarget:self action:@selector(onRefresh) forControlEvents:UIControlEventValueChanged];
     
     // Do any additional setup after loading the view, typically from a nib.
     self.movieTableView.dataSource = self;
@@ -61,6 +67,8 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     [self initCollectionView];
     [self fetchMovieDetails];
     [self.movieTableView insertSubview:self.refreshControl atIndex:0];
+    [self.view bringSubviewToFront:self.networkErrorDialog];
+    self.networkErrorDialog.hidden = YES;
 }
 
 -(void) initCollectionView {
@@ -81,6 +89,7 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
 
     [self.view addSubview:collectionView];
     self.collectionView = collectionView;
+    [self.collectionView insertSubview:self.refreshControlForCollectionView atIndex:0];
 
     [self refreshLayout];
 }
@@ -109,6 +118,8 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
             typePathComponent = @"top_rated";
         break;
     }
+    [self.networkingManager startMonitoring];
+    
     NSString *urlString = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@?api_key=%@", typePathComponent, apiKey];    NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     
@@ -116,7 +127,9 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
                                   delegate:nil
                              delegateQueue:[NSOperationQueue mainQueue]];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSLog(@"Going to make the request");
+    [self.movieModels removeAllObjects];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                             completionHandler:^(NSData * _Nullable data,
                                                                 NSURLResponse * _Nullable response,
@@ -138,7 +151,15 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
                                                 } else {
                                                     NSLog(@"An error occurred: %@", error.description);
                                                 }
+                                                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                                if (self.networkingManager.reachable) {
+                                                    self.networkErrorDialog.hidden = YES;
+                                                } else {
+                                                    self.networkErrorDialog.hidden = NO;
+                                                }
+
                                             }];
+    [self.networkingManager stopMonitoring];
     [task resume];
 }
 
@@ -207,7 +228,7 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
 - (void)onRefresh {
     [self fetchMovieDetails];
     [self.refreshControl endRefreshing];
-
+    [self.refreshControlForCollectionView endRefreshing];
 }
 
 @end

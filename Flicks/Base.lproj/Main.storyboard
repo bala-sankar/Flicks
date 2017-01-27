@@ -13,10 +13,28 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController restorationIdentifier="now_playing" id="BYZ-38-t0r" userLabel="Now Playing" customClass="MovieListViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" alpha="0.75" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" id="YO5-Rj-Vuf" userLabel="Network Error View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Network Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NGE-XQ-CCp">
+                                        <rect key="frame" x="129" y="8" width="116" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ic_report_problem_white.png" id="NFU-yO-gcI">
+                                        <rect key="frame" x="237" y="4" width="28" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" id="TFn-u5-fyp">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -26,7 +44,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="now_playing" tableViewCell="Kqb-xN-LPn" id="rJf-m9-hii">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="124.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="124"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="krc-uC-Xw7">
@@ -80,11 +98,12 @@
                     <connections>
                         <outlet property="layoutSegmentControl" destination="tWx-p2-J5x" id="5qF-pP-ekj"/>
                         <outlet property="movieTableView" destination="TFn-u5-fyp" id="DXZ-MB-3KY"/>
+                        <outlet property="networkErrorDialog" destination="YO5-Rj-Vuf" id="Y91-iR-WcL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1238.5" y="188.5"/>
+            <point key="canvasLocation" x="1238.5" y="238.5"/>
         </scene>
         <!--Info-->
         <scene sceneID="7O2-5e-nLz">
@@ -152,7 +171,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ywt-wy-VU9" id="cbw-7N-qnA">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="124"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="124.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VlX-ii-4rH">
@@ -291,6 +310,7 @@
     </scenes>
     <resources>
         <image name="ic_play_arrow.png" width="24" height="24"/>
+        <image name="ic_report_problem_white.png" width="24" height="24"/>
         <image name="ic_star.png" width="24" height="24"/>
         <image name="ic_view_list.png" width="24" height="24"/>
         <image name="ic_view_module.png" width="24" height="24"/>
