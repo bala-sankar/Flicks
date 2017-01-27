@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MovieModel.h"
 
-@interface ViewController : UIViewController
-
-
+@interface MovieListViewController : UIViewController
+    @property (nonatomic,strong) NSString *tabType;
 @end
 
