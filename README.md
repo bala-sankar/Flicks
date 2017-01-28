@@ -19,9 +19,9 @@ The following **required** functionality is complete:
 * [x] Implement a UISegmentedControl to switch between a list view and a grid view.
 
 The following **optional** features are implemented:
-* [ ] Add a search bar
-* [ ] All images fade in as they are loading.
-* [ ] For the large poster, load the low-res image first and switch to high-res when complete.
+* [x] Add a search bar
+* [x] All images fade in as they are loading.
+* [x] For the large poster, load the low-res image first and switch to high-res when complete.
 * [ ] Customize the highlight and selection effect of the cell.
 * [ ] Customize the navigation bar.
 * [ ] Tapping on a movie poster image shows the movie poster as full screen and zoomable. 
@@ -35,7 +35,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://raw.githubusercontent.com/bala-sankar/Flicks/master/flicks.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://raw.githubusercontent.com/bala-sankar/Flicks/master/flicks_v2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
