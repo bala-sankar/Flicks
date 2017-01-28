@@ -25,10 +25,11 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     MovieLayoutGrid,
 };
 
-@interface MovieListViewController () <UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MovieListViewController () <UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *movieTableView;
 @property (strong, nonatomic) NSMutableArray<MovieModel *> *movieModels;
+@property (strong, nonatomic) NSMutableArray<MovieModel *> *filteredMovies;
 @property (nonatomic, assign) MovieListType type;
 @property (nonatomic, assign) MovieLayoutType layoutType;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -37,6 +38,7 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
 @property (nonatomic, strong) UIRefreshControl *refreshControlForCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *networkErrorDialog;
 @property (strong, nonatomic) AFNetworkReachabilityManager *networkingManager;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchMoviesBar;
 
 @end
 
@@ -53,8 +55,9 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     
     // Do any additional setup after loading the view, typically from a nib.
     self.movieTableView.dataSource = self;
+    self.searchMoviesBar.delegate = self;
     self.movieModels = [NSMutableArray new];
-    
+    self.filteredMovies = [NSMutableArray new];
     static NSDictionary<NSString *, NSNumber *> *restorationIdentifierToTypeMapping;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -75,9 +78,9 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     CGFloat screenWidth = CGRectGetWidth(self.view.bounds);
     CGFloat itemHeight = 150;
-    CGFloat itemWidth = screenWidth / 3;
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
+    CGFloat itemWidth = (screenWidth - 20) / 3;
+    layout.minimumLineSpacing = 10;
+    layout.minimumInteritemSpacing = 10;
     layout.itemSize = CGSizeMake(itemWidth, itemHeight);
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
@@ -130,6 +133,7 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSLog(@"Going to make the request");
     [self.movieModels removeAllObjects];
+    [self.filteredMovies removeAllObjects];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                             completionHandler:^(NSData * _Nullable data,
                                                                 NSURLResponse * _Nullable response,
@@ -145,6 +149,7 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
                                                     for (NSDictionary *result in results) {
                                                         MovieModel *model = [[MovieModel alloc] initWithDictionary:result];
                                                         [self.movieModels addObject:model];
+                                                        [self.filteredMovies addObject:model];
                                                     }
                                                     [self.movieTableView reloadData];
                                                     [self.collectionView reloadData];
@@ -169,12 +174,12 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.movieModels.count;
+    return self.filteredMovies.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MovieTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"movieCell" forIndexPath:indexPath];
-    MovieModel *model = [self.movieModels objectAtIndex:indexPath.row];
+    MovieModel *model = [self.filteredMovies objectAtIndex:indexPath.row];
     [cell.titleLabel setText:model.title];
     cell.descLabel.text = model.movieDescription;
     
@@ -209,11 +214,12 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     NSIndexPath *indexPath = [NSIndexPath new];
     if([sender isKindOfClass:[MovieTableViewCell class]]) {
         indexPath = [self.movieTableView indexPathForCell:sender];
-        detailsController.model = [self.movieModels objectAtIndex:indexPath.row];
+        detailsController.model = [self.filteredMovies objectAtIndex:indexPath.row];
     } else {
         indexPath = sender;
         detailsController.model = [self.movieModels objectAtIndex:indexPath.item];
     }
+    [self.view endEditing:YES];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -253,5 +259,25 @@ typedef NS_ENUM(NSInteger, MovieLayoutType) {
     [self.refreshControl endRefreshing];
     [self.refreshControlForCollectionView endRefreshing];
 }
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self.filteredMovies removeAllObjects];
+    if (![searchText isEqualToString:@""]) {
+        for (MovieModel *model in self.movieModels) {
+            if([model.title containsString:searchText]){
+                [self.filteredMovies addObject:model];
+            }
+        }
+    } else {
+        for (MovieModel *model in self.movieModels) {
+            [self.filteredMovies addObject:model];
+        }
+        [self.view endEditing:YES];
+    }
+    
+    [self.movieTableView reloadData];
+}
+
 
 @end
